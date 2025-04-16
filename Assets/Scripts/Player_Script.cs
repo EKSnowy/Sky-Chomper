@@ -74,4 +74,9 @@ public class Player_Script : MonoBehaviour
             pellet.Destroy();
         }
     }
+    public Vector2 Yvalue()
+       { 
+            return transform.position; 
+       }
 }
+
