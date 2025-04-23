@@ -14,17 +14,20 @@ public class Player_Script : MonoBehaviour
     public float horizontal;
     //Becomes true at the start of the game
     public bool isStart;
+    //bool to check if the player is falling to death. false by default
+    public bool isFalling;
 
     [Header("Rigidbody")]
     public Rigidbody2D RB;
-    void Start()
+    public void Start()
     {
+        isFalling = false;
         isStart = true;
         RB.gravityScale = 0;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         ///////////Start/////////////
 
@@ -34,7 +37,7 @@ public class Player_Script : MonoBehaviour
             //If start of the game, unpauses game and applies gravity once [Spacebar] is pressed
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                RB.AddForce(Vector2.up * upwardForce,ForceMode2D.Impulse);
+                RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
                 RB.gravityScale = .5f;
                 isStart = false;
             }
@@ -43,19 +46,26 @@ public class Player_Script : MonoBehaviour
         else if (!isStart)
         {
             ///////////Movement/////////////
-        
+
             //Gets the input of whether you're moving right or left (EX: Left arrow and right arrow)
             //horizontal equals -1 if moving left, and equals 1 if moving right. It becomes 0 if no inputs
             horizontal = Input.GetAxisRaw("Horizontal");
-            
+
         }
-        
+
+        //death falling bool
+        if (RB.velocity.y <= -10)
+        {
+            Debug.Log("HELP IM FALLING AAAAAAAAAAAA");
+            isFalling = true;
+        }
+
     }
-    
+
     //Called every 30 frames for consistent movement
     public void FixedUpdate()
     {
-        RB.velocity = new Vector2(horizontal * moveSpeed,RB.velocity.y);
+        RB.velocity = new Vector2(horizontal * moveSpeed, RB.velocity.y);
     }
 
     //Detects collision if something hits the player's head
@@ -69,14 +79,14 @@ public class Player_Script : MonoBehaviour
         {
             //Destroys pellet on contact and applies upwards force
             RB.velocity = Vector2.zero;
-            RB.AddForce(Vector2.up * upwardForce,ForceMode2D.Impulse);
-            
+            RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+
             pellet.Destroy();
         }
     }
     public Vector2 Yvalue()
-       { 
-            return transform.position; 
-       }
+    {
+        return transform.position;
+    }
 }
 
