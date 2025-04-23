@@ -56,7 +56,6 @@ public class Player_Script : MonoBehaviour
         //death falling bool
         if (RB.velocity.y <= -10)
         {
-            Debug.Log("HELP IM FALLING AAAAAAAAAAAA");
             isFalling = true;
         }
 
