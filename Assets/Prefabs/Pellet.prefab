@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3522192644191614245}
   - component: {fileID: 6303251053022658838}
   - component: {fileID: 8314404251060092937}
+  - component: {fileID: -1424543663874211290}
   m_Layer: 0
   m_Name: Pellet
   m_TagString: Untagged
@@ -134,3 +135,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pellet: {fileID: 2211507007079816883}
+  player: {fileID: 0}
+--- !u!50 &-1424543663874211290
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211507007079816883}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

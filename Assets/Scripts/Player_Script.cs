@@ -63,7 +63,6 @@ public class Player_Script : MonoBehaviour
         if (RB.velocity.y <= -10)
         {
             isFalling = true;
-            gameoverscreen.SetActive(true);
         }
 
     }
@@ -89,18 +88,19 @@ public class Player_Script : MonoBehaviour
             RB.velocity = Vector2.zero;
             RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
 
-            pellet.Destroy();
+            pellet.pelletdestroy();
         }
         //kidna similar code i think
         if (storm_cloud != null)
         {
-            storm_cloud.Destroy();
+            storm_cloud.kill();
             health = health - 1;
 
             if (health <= 0)
             {
                 isFalling = true;
                 RB.velocity = Vector2.zero;
+                RB.velocity = new Vector2(horizontal * moveSpeed, -3);
                 gameoverscreen.SetActive(true);
             }
 
@@ -120,5 +120,16 @@ public class Player_Script : MonoBehaviour
     {
         SceneManager.LoadScene("Game Scene");
     }    
+
+    public void sethealthtozero()
+        { 
+        health = 0;
+        if (health <= 0)
+        {
+            RB.velocity = Vector2.zero;
+            gameoverscreen.SetActive(true);
+
+        }
+    }
 }
 

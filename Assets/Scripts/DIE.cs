@@ -8,11 +8,14 @@ public class DIE : MonoBehaviour
     {
         //Retrieves the scripts of whatever collides with the player
         Player_Script player = other.GetComponent<Player_Script>();
+        hazard storm_cloud = other.GetComponent<hazard>();
 
-        //If the script equals pellet
+
         if (player != null)
         {
             Time.timeScale = 0;
+            player.sethealthtozero();
         }
+
     }
 }

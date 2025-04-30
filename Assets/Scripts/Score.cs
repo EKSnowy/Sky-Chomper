@@ -11,7 +11,7 @@ public class PlayerScore : MonoBehaviour
 
     public void Update()
     {
-        if (player.RB.velocity.y >= 0)
+        if (player.RB.velocity.y > 0)
         {
             //score based on y value. round to the nearest whole
             score.text = "" + Mathf.RoundToInt(kms.Yvalue().y);
