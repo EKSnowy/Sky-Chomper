@@ -13,8 +13,8 @@ public class PlayerScore : MonoBehaviour
     {
         if (player.RB.velocity.y >= 0)
         {
-        //score based on y value. round to the nearest whole
-        score.text = "" + Mathf.RoundToInt(kms.Yvalue().y);
+            //score based on y value. round to the nearest whole
+            score.text = "" + Mathf.RoundToInt(kms.Yvalue().y);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Script : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Player_Script : MonoBehaviour
     public bool isStart;
     //bool to check if the player is falling to death. false by default
     public bool isFalling;
+    // hp
+    public int health;
+    public GameObject gameoverscreen;
 
     [Header("Rigidbody")]
     public Rigidbody2D RB;
@@ -24,6 +28,8 @@ public class Player_Script : MonoBehaviour
         isFalling = false;
         isStart = true;
         RB.gravityScale = 0;
+        health = 3;
+        gameoverscreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -57,6 +63,7 @@ public class Player_Script : MonoBehaviour
         if (RB.velocity.y <= -10)
         {
             isFalling = true;
+            gameoverscreen.SetActive(true);
         }
 
     }
@@ -72,6 +79,8 @@ public class Player_Script : MonoBehaviour
     {
         //Retrieves the scripts of whatever collides with the player
         Pellet_Script pellet = other.GetComponent<Pellet_Script>();
+        //hazard script (wip)
+        hazard storm_cloud = other.GetComponent<hazard>();
 
         //If the script equals pellet
         if (pellet != null)
@@ -82,10 +91,34 @@ public class Player_Script : MonoBehaviour
 
             pellet.Destroy();
         }
+        //kidna similar code i think
+        if (storm_cloud != null)
+        {
+            storm_cloud.Destroy();
+            health = health - 1;
+
+            if (health <= 0)
+            {
+                isFalling = true;
+                RB.velocity = Vector2.zero;
+                gameoverscreen.SetActive(true);
+            }
+
+        }
     }
     public Vector2 Yvalue()
     {
         return transform.position;
     }
+
+    public int getHealth()
+    {
+        return health;
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene("Game Scene");
+    }    
 }
 
