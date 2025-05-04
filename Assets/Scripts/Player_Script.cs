@@ -33,6 +33,8 @@ public class Player_Script : MonoBehaviour
     public GameObject turnLeft;
     public GameObject turnDown;
     public Quaternion startingRot;
+    public soundeffects chomp;
+    public soundeffects ouch;
     public void Start()
     {
         Time.timeScale = 1;
@@ -153,6 +155,7 @@ public class Player_Script : MonoBehaviour
             pellet.pelletdestroy();
             chompTimer = .3f;
             AM.Play("Chomp Animation");
+            chomp.PlayChomp();
             
         }
         //kidna similar code i think
@@ -162,8 +165,9 @@ public class Player_Script : MonoBehaviour
             health = health - 1;
             hurtTimer = .5f;
             AM.Play("Electrocuted Animation");
-            
-            
+            ouch.PlayHit();
+
+
             if (health <= 0)
             {
                 isFalling = true;
