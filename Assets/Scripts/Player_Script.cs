@@ -21,6 +21,7 @@ public class Player_Script : MonoBehaviour
     // hp
     public int health;
     public GameObject gameoverscreen;
+    public soundeffects sfx;
 
     [Header("Rigidbody")]
     public Rigidbody2D RB;
@@ -57,6 +58,7 @@ public class Player_Script : MonoBehaviour
         //Game is paused at the start
         if (isStart)
         {
+
             //If start of the game, unpauses game and applies gravity once [Spacebar] is pressed
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -149,7 +151,7 @@ public class Player_Script : MonoBehaviour
             //Destroys pellet on contact and applies upwards force
             RB.velocity = Vector2.zero;
             RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
-
+            sfx.PlayChomp();
             pellet.pelletdestroy();
             chompTimer = .3f;
             AM.Play("Chomp Animation");
@@ -160,10 +162,15 @@ public class Player_Script : MonoBehaviour
         {
             storm_cloud.kill();
             health = health - 1;
+<<<<<<< Updated upstream
             hurtTimer = .5f;
             AM.Play("Electrocuted Animation");
             
             
+=======
+            sfx.PlayHit();
+
+>>>>>>> Stashed changes
             if (health <= 0)
             {
                 isFalling = true;
