@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,13 +24,29 @@ public class Player_Script : MonoBehaviour
 
     [Header("Rigidbody")]
     public Rigidbody2D RB;
+
+    public Animator AM;
+    public float chompTimer;
+    public float hurtTimer;
+
+    public GameObject turnRight;
+    public GameObject turnLeft;
+    public GameObject turnDown;
+    public Quaternion startingRot;
     public void Start()
     {
+        Time.timeScale = 1;
+        
         isFalling = false;
         isStart = true;
         RB.gravityScale = 0;
         health = 3;
+        
         gameoverscreen.SetActive(false);
+
+        hurtTimer = -1;
+        chompTimer = -1;
+        startingRot = transform.rotation;
     }
 
     // Update is called once per frame
@@ -64,7 +81,52 @@ public class Player_Script : MonoBehaviour
         {
             isFalling = true;
         }
-
+        
+        //Controls how long an animation lasts for
+        //When the animation is over, it returns to the idle animation
+        if (chompTimer > 0)
+        {
+            chompTimer -= Time.deltaTime;
+        }
+        
+        if (hurtTimer > 0)
+        {
+            hurtTimer -= Time.deltaTime;
+        }
+        else if (chompTimer < 0 && hurtTimer < 0)
+        {
+            AM.Play("Idle Animation");
+        }
+        
+        ///////////////ROTATION//////////////////
+        
+        //If falling down, makes player look down (WIP)
+        /*if (RB.velocity.y < 0)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, turnDown.transform.rotation, Time.deltaTime * 2);
+        }
+        //Else makes player look up
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, startingRot, Time.deltaTime * 2);
+        }*/
+        
+        //Checks the direction the player is going for rotation
+        //Rotates right when moving right, and rotates left when moving left
+        if (horizontal == 1)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, turnRight.transform.rotation, Time.deltaTime * 2);
+        }
+        else if (horizontal == -1)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, turnLeft.transform.rotation, Time.deltaTime * 2);
+        }
+        //If not moving, player looks up
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, startingRot, Time.deltaTime * 2);
+        }
+        
     }
 
     //Called every 30 frames for consistent movement
@@ -89,13 +151,19 @@ public class Player_Script : MonoBehaviour
             RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
 
             pellet.pelletdestroy();
+            chompTimer = .3f;
+            AM.Play("Chomp Animation");
+            
         }
         //kidna similar code i think
         if (storm_cloud != null)
         {
             storm_cloud.kill();
             health = health - 1;
-
+            hurtTimer = .5f;
+            AM.Play("Electrocuted Animation");
+            
+            
             if (health <= 0)
             {
                 isFalling = true;
@@ -106,6 +174,8 @@ public class Player_Script : MonoBehaviour
 
         }
     }
+    
+
     public Vector2 Yvalue()
     {
         return transform.position;

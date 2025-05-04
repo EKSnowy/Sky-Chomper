@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour
         if (player.isFalling == false)
         {
             //prevents camera from moving side to side
-            transform.position = new Vector3(0, player.Yvalue().y + 4.5f, -10);
+            transform.position = new Vector3(0, player.Yvalue().y + 3f, -10);
         }
 
     }
