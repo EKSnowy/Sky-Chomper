@@ -27,6 +27,6 @@ public class cloudgeneration : MonoBehaviour
         }
     }
 }
-//the stupid parallex effect breaks when i repalce the asset for some fucking reason i'm literally not even changing the code at all and it just refuses to work.
+//the stupid parallex effect breaks when i replace the asset for some fucking reason i'm literally not even changing the code at all and it just refuses to work.
 //its literally only with clouds_6 too
 //ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo ts pmo 
