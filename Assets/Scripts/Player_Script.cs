@@ -28,12 +28,13 @@ public class Player_Script : MonoBehaviour
 
     public Animator AM;
     public float chompTimer;
+    public float electrocuteTimer;
     public float hurtTimer;
     public Score score;
 
     public GameObject turnRight;
     public GameObject turnLeft;
-    public GameObject turnDown;
+    //public GameObject turnDown;
     public Quaternion startingRot;
     public soundeffects chomp;
     public soundeffects ouch;
@@ -48,8 +49,9 @@ public class Player_Script : MonoBehaviour
         
         gameoverscreen.SetActive(false);
 
-        hurtTimer = -1;
+        electrocuteTimer = -1;
         chompTimer = -1;
+        hurtTimer = -1;
         startingRot = transform.rotation;
     }
 
@@ -86,6 +88,8 @@ public class Player_Script : MonoBehaviour
             isFalling = true;
         }
         
+        /////////////////////ANIMATION//////////////////////
+        
         //Controls how long an animation lasts for
         //When the animation is over, it returns to the idle animation
         if (chompTimer > 0)
@@ -93,11 +97,17 @@ public class Player_Script : MonoBehaviour
             chompTimer -= Time.deltaTime;
         }
         
+        if (electrocuteTimer > 0)
+        {
+            electrocuteTimer -= Time.deltaTime;
+        }
+        
         if (hurtTimer > 0)
         {
             hurtTimer -= Time.deltaTime;
         }
-        else if (chompTimer < 0 && hurtTimer < 0)
+        
+        else if (chompTimer < 0 && electrocuteTimer < 0 && hurtTimer < 0)
         {
             AM.Play("Idle Animation");
         }
@@ -105,6 +115,7 @@ public class Player_Script : MonoBehaviour
         ///////////////ROTATION//////////////////
         
         //If falling down, makes player look down (WIP)
+        
         /*if (RB.velocity.y < 0)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, turnDown.transform.rotation, Time.deltaTime * 2);
@@ -142,38 +153,71 @@ public class Player_Script : MonoBehaviour
     //Detects collision if something hits the player's head
     public void OnTriggerEnter2D(Collider2D other)
     {
-        healpellet medicine = other.GetComponent<healpellet>();
         //Retrieves the scripts of whatever collides with the player
+        
+        //Pellets
+        healpellet medicine = other.GetComponent<healpellet>();
         Pellet_Script pellet = other.GetComponent<Pellet_Script>();
-        //hazard script (wip)
+      
+        //Hazards
         hazard storm_cloud = other.GetComponent<hazard>();
+        Bird_Script bird = other.GetComponent<Bird_Script>();
 
         //If the script equals pellet
         if (pellet != null)
         {
-            //Destroys pellet on contact and applies upwards force
-            RB.velocity = Vector2.zero;
-            RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+            if (health > 0)
+            {
+                //Destroys pellet on contact and applies upwards force
+                RB.velocity = Vector2.zero;
+                RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
 
-            pellet.pelletdestroy();
-            chompTimer = .3f;
-            AM.Play("Chomp Animation");
-            chomp.PlayChomp();
-            
+                pellet.pelletdestroy();
+                chompTimer = .3f;
+                AM.Play("Chomp Animation");
+                chomp.PlayChomp();
+
+            }
         }
 
         if (medicine != null)
         {
-            RB.velocity = Vector2.zero;
-            RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+            if (health > 0)
+            {
+                RB.velocity = Vector2.zero;
+                RB.AddForce(Vector2.up * (upwardForce + 3), ForceMode2D.Impulse);
+            
+                chompTimer = .3f;
+                AM.Play("Chomp Animation");
+                chomp.PlayHeal();
+            }
         }
         //kidna similar code i think
         if (storm_cloud != null)
         {
             storm_cloud.kill();
             health = health - 1;
-            hurtTimer = .5f;
+            electrocuteTimer = .5f;
             AM.Play("Electrocuted Animation");
+            ouch.PlayHit();
+
+
+            if (health <= 0)
+            {
+                isFalling = true;
+                RB.velocity = Vector2.zero;
+                RB.velocity = new Vector2(horizontal * moveSpeed, -3);
+                gameoverscreen.SetActive(true);
+                score.scoreCheck();
+            }
+
+        }
+        
+        if (bird != null)
+        {
+            health = health - 1;
+            hurtTimer = .5f;
+            AM.Play("Hurt Animation");
             ouch.PlayHit();
 
 

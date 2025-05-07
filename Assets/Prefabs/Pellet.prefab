@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pellet: {fileID: 2211507007079816883}
+  particle: {fileID: 4669368778388566628, guid: f90b8d9a41d507647a6aa2a4712909c9, type: 3}
   player: {fileID: 0}
 --- !u!50 &-1424543663874211290
 Rigidbody2D:

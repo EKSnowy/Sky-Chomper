@@ -6,8 +6,8 @@ using UnityEngine;
 public class healpellet : MonoBehaviour
 {
     public GameObject healPellet;
+    public GameObject particle;
     public Player_Script player;
-
     public void Start()
     {
         //what the fuck
@@ -16,7 +16,8 @@ public class healpellet : MonoBehaviour
     public void pelletdestroy()
     {
         // spawns a new pellet once the one you last collected is destroyed
-        Instantiate(healPellet, new Vector3(Random.Range(-7, 4), player.Yvalue().y + Random.Range(150, 300), -2), Quaternion.identity);
+        Instantiate(healPellet, new Vector3(Random.Range(-7, 4), player.Yvalue().y + Random.Range(100, 200), -2), Quaternion.identity);
+        Instantiate(particle, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
     public void OnTriggerEnter2D(Collider2D other)

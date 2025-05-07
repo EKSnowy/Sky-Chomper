@@ -6,6 +6,7 @@ using UnityEngine;
 public class Pellet_Script : MonoBehaviour
 {
     public GameObject pellet;
+    public GameObject particle;
     public Player_Script player;
 
     public void Start()
@@ -16,7 +17,8 @@ public class Pellet_Script : MonoBehaviour
     public void pelletdestroy()
     {
         // spawns a new pellet once the one you last collected is destroyed
-        Instantiate(pellet, new Vector3(Random.Range(-7, 4), player.Yvalue().y + Random.Range(12, 16), -2), Quaternion.identity);
+        Instantiate(pellet, new Vector3(Random.Range(-7, 4), player.Yvalue().y + Random.Range(9, 13), -2), Quaternion.identity);
+        Instantiate(particle, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
     public void OnTriggerEnter2D(Collider2D other)
