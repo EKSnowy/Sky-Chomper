@@ -17,7 +17,7 @@ public class hazard : MonoBehaviour
     }
     public void kill()
     {
-        // spawns a new storm cloud once the one you last collected is destroyed (NOT OFFSCREEN. IM WORKING ON THAT)
+     // spawns a new storm cloud once the one you last collected is destroyed (NOT OFFSCREEN. IM WORKING ON THAT)
         Instantiate(storm_cloud, new Vector3(Random.Range(-7, 4), player.Yvalue().y + Random.Range(30, 50), -2), Quaternion.identity);
         Destroy(this.gameObject);
 
