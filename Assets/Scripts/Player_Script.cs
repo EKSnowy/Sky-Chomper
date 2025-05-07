@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Player_Script : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Player_Script : MonoBehaviour
     public Animator AM;
     public float chompTimer;
     public float hurtTimer;
+    public Score score;
 
     public GameObject turnRight;
     public GameObject turnLeft;
@@ -140,6 +142,7 @@ public class Player_Script : MonoBehaviour
     //Detects collision if something hits the player's head
     public void OnTriggerEnter2D(Collider2D other)
     {
+        healpellet medicine = other.GetComponent<healpellet>();
         //Retrieves the scripts of whatever collides with the player
         Pellet_Script pellet = other.GetComponent<Pellet_Script>();
         //hazard script (wip)
@@ -158,6 +161,12 @@ public class Player_Script : MonoBehaviour
             chomp.PlayChomp();
             
         }
+
+        if (medicine != null)
+        {
+            RB.velocity = Vector2.zero;
+            RB.AddForce(Vector2.up * upwardForce, ForceMode2D.Impulse);
+        }
         //kidna similar code i think
         if (storm_cloud != null)
         {
@@ -174,6 +183,7 @@ public class Player_Script : MonoBehaviour
                 RB.velocity = Vector2.zero;
                 RB.velocity = new Vector2(horizontal * moveSpeed, -3);
                 gameoverscreen.SetActive(true);
+                score.scoreCheck();
             }
 
         }
@@ -202,7 +212,15 @@ public class Player_Script : MonoBehaviour
         {
             RB.velocity = Vector2.zero;
             gameoverscreen.SetActive(true);
+            score.scoreCheck();
 
+        }
+    }
+    public void heal()
+    {
+        if (health <3)
+        {
+            health++;
         }
     }
 }
